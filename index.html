@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr Jayesh Gohil Vet Clinic</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 15px;
+            color: #333;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+            border-top: 6px solid #1b5e20;
+        }
+        .top-banner {
+            background: #1b5e20;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-banner h2 { margin: 0; font-size: 20px; }
+        .top-banner p { margin: 0; font-size: 13px; color: #c8e6c9; }
+
+        .clinic-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .clinic-header h1 {
+            margin: 0;
+            color: #1b5e20;
+            font-size: 24px;
+        }
+        .clinic-header p {
+            margin: 3px 0;
+            font-size: 13px;
+            color: #555;
+        }
+        .doctor-info {
+            text-align: right;
+        }
+        .doctor-info h3 {
+            margin: 0;
+            color: #d32f2f;
+            font-size: 18px;
+        }
+
+        .admin-bar {
+            background: #e0f2f1;
+            border: 1px solid #00897b;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .doctor-only {
+            display: none;
+        }
+
+        .dashboard-box {
+            background: #fff8e1;
+            border: 2px solid #ffa000;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .history-box {
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .dashboard-box h3, .history-box h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+        .case-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .case-item {
+            background: #fff;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .case-item:hover {
+            background: #f1f1f1;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin: 15px 0 20px 0;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px dashed #2e7d32;
+        }
+        .qr-section img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        .qr-section p {
+            margin: 6px 0 0 0;
+            font-size: 14px;
+            color: #1b5e20;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"], input[type="tel"], select, textarea {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        textarea { resize: vertical; }
+
+        .prescription-preview {
+            background: #fcfcfc;
+            border: 2px solid #2e7d32;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #1b5e20;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+        .prescription-body p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+        .rx-box {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            white-space: pre-line;
+            font-size: 15px;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .btn-main {
+            width: 100%;
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .btn-main:hover { background-color: #1b5e20; }
+        .btn-whatsapp {
+            background-color: #25d366;
+        }
+        .btn-whatsapp:hover { background-color: #128c7e; }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #00897b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .hint { font-size: 11px; color: #666; margin-top: 3px; }
+        .error-msg { color: #d32f2f; font-size: 12px; display: none; margin-top: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <div>
+            <h2>Dr Jayesh Gohil Vet Clinic</h2>
+            <p>Online Pet Telemedicine & Smart Prescription System</p>
+        </div>
+        <div style="text-align: right;">
+            <p style="font-weight: bold;">Dr. Jayesh Gohil</p>
+            <p>Vet Doctor (37 Yrs Exp.)</p>
+        </div>
+    </div>
+
+    <!-- Clinic Header -->
+    <div class="clinic-header">
+        <div>
+            <h1>Dr Jayesh Gohil Vet Clinic</h1>
+            <p>Telemedicine & Pet Care Service</p>
+            <p>📞 Mobile / WhatsApp: +91 9825088959</p>
+        </div>
+        <div class="doctor-info">
+            <h3>Dr. Jayesh Gohil</h3>
+            <p>Retired Veterinary Officer (Govt. of Gujarat)</p>
+            <p>Experience: 37 Years | Regd. No: GVC-1186</p>
+        </div>
+    </div>
+
+    <!-- Doctor Login / Admin Toggle Bar -->
+    <div class="admin-bar">
+        <span style="font-size: 13px; color: #004d40; font-weight: bold;" id="modeText">🔒 પશુપાલક મોડ (સુરક્ષિત ફોર્મ)</span>
+        <button type="button" class="btn-sm" id="loginBtn" onclick="toggleDoctorLogin()">🔐 ડૉક્ટર એડમિન લોગિન કરો</button>
+    </div>
+
+    <!-- Multi-Case Dashboard (Pending Cases) - ONLY FOR DOCTOR -->
+    <div id="pendingDashboard" class="dashboard-box doctor-only">
+        <h3 style="color: #f57c00;">📋 પશુપાલકોના પેન્ડિંગ કેસની યાદી (Click to Open)</h3>
+        <ul id="caseListContainer" class="case-list">
+            <li style="text-align: center; color: #666; font-size: 13px; padding: 10px;">હજુ કોઈ પેન્ડિંગ કેસ નથી...</li>
+        </ul>
+        <button type="button" class="btn-sm" style="margin-top: 8px; background: #f57c00;" onclick="clearPendingCases()">પેન્ડિંગ લિસ્ટ ખાલી કરો</button>
+    </div>
+
+    <!-- Patient History Archive - ONLY FOR DOCTOR -->
+    <div id="historyDashboard" class="history-box doctor-only">
+        <h3 style="color: #1976d2;">🗂️ જૂના દર્દીઓનો કાયમી રેકોર્ડ / હિસ્ટ્રી (Patient History Archive)</h3>
+        <ul id="historyListContainer" class="case-list">
+            <li style="text-align: center; color: #666; font-size: 13px; padding: 10px;">હજુ કોઈ હિસ્ટ્રી સેવ થયેલ નથી...</li>
+        </ul>
+    </div>
+
+    <!-- QR Code & Fee Section -->
+    <div class="qr-section">
+        <img src="qr-code.png" alt="Clinic QR Code" onerror="this.style.display='none'; document.getElementById('qr-fallback').style.display='block';">
+        <div id="qr-fallback" style="display:none; font-size:12px; color:#555;">[ QR Code Placeholder ]</div>
+        <p>📱 કન્સલ્ટેશન ફી: Rs. 200/- (QR કોડ સ્કેન કરી પેમેન્ટ કર્યા બાદ WhatsApp પર સ્ક્રીનશોટ મોકલો)</p>
+    </div>
+
+    <!-- Input Form -->
+    <form id="drpetForm" onsubmit="submitCaseToDoctor(event)">
+        
+        <div class="form-group">
+            <label for="ownerName">પેટ માલિકનું નામ (Owner Name): *</label>
+            <input type="text" id="ownerName" placeholder="તમારું પૂરું નામ લખો" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ownerMobile">મોબાઈલ નંબર (Mobile No): *</label>
+            <input type="tel" id="ownerMobile" placeholder="10 આંકડાનો નંબર" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="location">ગામ / શહેર (Location):</label>
+            <input type="text" id="location" placeholder="દા.ત. ભાવનગર">
+        </div>
+
+        <div class="form-group">
+            <label for="petSpecies">પ્રાણીનો પ્રકાર (Pet Species): *</label>
+            <select id="petSpecies" required>
+                <option value="">-- પસંદ કરો --</option>
+                <option value="Dog (કુતરો)">Dog (કુતરો)</option>
+                <option value="Cat (બિલાડી)">Cat (બિલાડી)</option>
+                <option value="Other (અન્ય)">અન્ય (Other)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="petWeight">વજન / Weight (kg): *</label>
+            <input type="number" step="0.1" id="petWeight" placeholder="દા.ત. 10" required>
+        </div>
+
+        <div class="form-group">
+            <label for="primarySymptom">મુખ્ય સમસ્યા / નિદાન (Diagnosis / Primary Symptom): *</label>
+            <select id="primarySymptom" onchange="autoFillMedicine()" required>
+                <option value="">-- મુખ્ય લક્ષણ પસંદ કરો --</option>
+                <option value="Fever & Cold (તાવ અને શરદી)">તાવ અને શરદી (Fever & Cold)</option>
+                <option value="Vomiting & Diarrhea (ઉલટી અને ઝાડા)">ઉલટી અને ઝાડા (Vomiting & Diarrhea)</option>
+                <option value="Skin Issue / Itching (ચામડીની સમસ્યા / ખંજવાળ)">ચામડીની સમસ્યા / ખંજવાળ (Skin Issue / Itching)</option>
+                <option value="Anorexia / Weakness (ખોરાક બંધ / અશક્તિ)">ખોરાક બંધ / અશક્તિ (Anorexia / Weakness)</option>
+                <option value="Worm Infestation (કૃમિ / પેટ ફૂલવું)">કૃમિ / પેટ ફૂલવું (Worm Infestation)</option>
+                <option value="Ear / Eye Issue (કાન કે આંખની તકલીફ)">કાન કે આંખની તકલીફ (Ear / Eye Issue)</option>
+                <option value="Lameness / Arthritis (લંગડાહટ / સાંધાનો દુખાવો)">લંગડાહટ / સાંધાનો દુખાવો (Lameness / Joint Pain)</option>
+                <option value="Other / Not Listed Above (અન્ય સમસ્યા)">અન્ય સમસ્યા (Other)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="customSymptoms">વધારાના લક્ષણો / ઓનરની નોંધ:</label>
+            <textarea id="customSymptoms" rows="2" placeholder="ઓનર પોતાની નોંધ અહીં લખી શકે છે..." oninput="autoFillMedicine()"></textarea>
+        </div>
+
+        <!-- Photo Upload (Max 4) -->
+        <div class="form-group">
+            <label for="petPhotos">પ્રાણીના/લક્ષણોના ફોટા (Max 4 Photos):</label>
+            <input type="file" id="petPhotos" accept="image/*" multiple onchange="validatePhotoCount(this)">
+            <div class="hint">મહત્તમ 4 ફોટો અપલોડ કરી શકાય છે.</div>
+            <div id="photoError" class="error-msg">⚠️ તમે વધુમાં વધુ 4 ફોટા જ અપલોડ કરી શકો છો!</div>
+        </div>
+
+        <!-- Doctor Final Editing Panel - ONLY FOR DOCTOR -->
+        <div id="doctorPanelBox" style="background: #e8f5e9; border: 2px solid #2e7d32; padding: 15px; border-radius: 8px; margin-top: 20px;" class="doctor-only">
+            <label style="color: #1b5e20; font-size: 16px;">🔒 ડૉક્ટર પેનલ: પ્રિસ્ક્રિપ્શન દવા અને ડોઝ (Verify & Finalize)</label>
+            <textarea id="doctorPrescription" rows="4" style="background: #fff; font-weight: bold;" placeholder="દવા અને ડોઝ અહીં ઓટોમેટીક આવશે, જેને ડૉક્ટર સુધારી કે ફાઇનલ કરી શકશે..."></textarea>
+            <div class="hint">આ ખાતું ડૉક્ટર માટે છે. ફાઇનલ કરીને નીચેનું બટન દબાવો.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-main">ડૉક્ટરને કેસ મોકલો (Send Case to Doctor)</button>
+    </form>
+
+    <!-- Professional Prescription View - ONLY FOR DOCTOR -->
+    <div id="finalPrescriptionBox" class="prescription-preview doctor-only">
+        <div class="prescription-header">
+            <div>
+                <h3 style="margin:0; color:#1b5e20; font-size:20px;">Dr Jayesh Gohil Vet Clinic</h3>
+                <p style="margin:2px 0; font-size:12px; color:#555;">Telemedicine & Pet Care Service</p>
+            </div>
+            <div style="text-align: right;">
+                <h3 style="margin:0; color:#d32f2f; font-size:18px;">Dr. Jayesh Gohil</h3>
+                <p style="margin:2px 0; font-size:12px; color:#333;">Regd. No: GVC-1186</p>
+            </div>
+        </div>
+
+        <div class="prescription-body">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <div>
+                    <p><strong>પેટ માલિક:</strong> <span id="lblOwner">---</span> | <strong>મોબાઈલ:</strong> <span id="lblMobile">---</span></p>
+                    <p><strong>પ્રાણી:</strong> <span id="lblPet">---</span> (વજન: <span id="lblWeight">---</span> kg) | <strong>સ્થળ:</strong> <span id="lblLocation">---</span></p>
+                </div>
+                <div style="text-align: right;">
+                    <p><strong>તારીખ:</strong> <span id="lblDate"></span></p>
+                </div>
+            </div>
+            <p><strong>નિદાન (Diagnosis):</strong> <span id="lblDiagnosis">---</span></p>
+            <hr style="border: 0; border-top: 1px solid #ccc; margin: 12px 0;">
+            <p style="font-weight: bold; color: #1b5e20; font-size: 15px;">Rx (દવાઓ અને ડોઝ):</p>
+            <div id="lblRxContent" class="rx-box">હજુ પ્રિસ્ક્રિપ્શન જનરેટ થયું નથી...</div>
+        </div>
+
+        <!-- Footer inside prescription -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 35px; border-top: 1px dashed #ccc; padding-top: 12px;">
+            <div style="font-size: 11px; color: #777; max-width: 65%;">
+                * આ પ્રિસ્ક્રિપ્શન Dr Jayesh Gohil Vet Clinic પ્લેટફોર્મ પરથી ટેલિમેડિસિન નિયમો મુજબ જનરેટ કરવામાં આવેલ છે.
+            </div>
+            <div style="text-align: right;">
+                <p style="margin: 0; font-weight: bold; font-size: 14px; color: #1b5e20;">Dr. Jayesh Gohil</p>
+                <p style="margin: 2px 0 0 0; font-size: 12px; color: #2e7d32;">✓ Digitally Verified & Approved</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 25px; display: flex; gap: 10px;">
+            <button type="button" class="btn-main" onclick="window.print()">પ્રિન્ટ / PDF સેવ કરો</button>
+            <button type="button" class="btn-main btn-whatsapp" onclick="sendToWhatsApp()">WhatsApp પર મોકલો</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const today = new Date().toLocaleDateString('gu-IN');
+    document.getElementById('lblDate').innerText = today;
+
+    let isDoctorLoggedIn = false;
+
+    function toggleDoctorLogin() {
+        if (!isDoctorLoggedIn) {
+            let pwd = prompt("ડૉક્ટર પાસવર્ડ દાખલ કરો:");
+            if (pwd === "1234" || pwd === "gvc1186") {
+                isDoctorLoggedIn = true;
+                document.querySelectorAll('.doctor-only').forEach(el => el.style.display = 'block');
+                document.getElementById('submitBtn').innerText = "પ્રિસ્ક્રિપ્શન જનરેટ અને સેવ કરો (Generate & Save)";
+                document.getElementById('modeText').innerText = "🔓 ડૉક્ટર એડમિન મોડ (સક્રિય)";
+                document.getElementById('loginBtn').innerText = "🔒 લોગ આઉટ કરો";
+                alert("ડૉક્ટર મોડ સક્રિય થઈ ગયો છે!");
+                renderCaseLists();
+            } else {
+                alert("ખોટો પાસવર્ડ!");
+            }
+        } else {
+            isDoctorLoggedIn = false;
+            document.querySelectorAll('.doctor-only').forEach(el => el.style.display = 'none');
+            document.getElementById('submitBtn').innerText = "ડૉક્ટરને કેસ મોકલો (Send Case to Doctor)";
+            document.getElementById('modeText').innerText = "🔒 પશુપાલક મોડ (સુરક્ષિત ફોર્મ)";
+            document.getElementById('loginBtn').innerText = "🔐 ડૉક્ટર એડમિન લોગિન કરો";
+            alert("ડૉક્ટર મોડ લોગ આઉટ થઈ ગયો છે.");
+        }
+    }
+
+    function validatePhotoCount(input) {
+        const errorDiv = document.getElementById('photoError');
+        if (input.files.length > 4) {
+            errorDiv.style.display = 'block';
+            input.value = '';
+        } else {
+            errorDiv.style.display = 'none';
+        }
+    }
+
+    function autoFillMedicine() {
+        const symptom = document.getElementById('primarySymptom').value;
+        const customText = document.getElementById('customSymptoms').value.toLowerCase();
+        let medBox = document.getElementById('doctorPrescription');
+
+        // Only auto-fill if the doctor panel is empty to avoid overwriting doctor's custom edits
+        if(medBox.value.trim() !== "") return;
+
+        let suggestion = "";
+        if (symptom.includes('Fever') || customText.includes('તાવ')) {
+            suggestion = "1. Inj. Melonex (Meloxicam) - 1 ml i.m.\n2. Tab. Paracip - 1 tab twice daily\n3. Syrup Intas Polybion - 5 ml twice daily";
+        } else if (symptom.includes('Vomiting') || customText.includes('ઉલટી')) {
+            suggestion = "1. Inj. Ondem (Ondansetron) - 2 ml i.m.\n2. Tab. Metrogyl - 1 tab twice daily\n3. Electral Powder - mix in water";
+        } else if (symptom.includes('Skin') || customText.includes('ખંજવાળ')) {
+            suggestion = "1. Syrup Atarax / Allerjet - as per weight\n2. Omega 3 & 6 Coat Supplement (Nutricoat) - 5 ml daily\n3. Ketoconazole Soap bath";
+        } else if (symptom.includes('Anorexia') || customText.includes('અશક્તિ')) {
+            suggestion = "1. Inj. Tribivet - 2 ml i.m.\n2. Liv.52 Syrup - 10 ml twice daily\n3. Appetite Stimulant Syrup";
+        } else if (symptom.includes('Worm') || customText.includes('કૃમિ')) {
+            suggestion = "1. Tab. Prazitel Plus / Albomar - 1 tab (deworming as per body weight)";
+        } else if (symptom.includes('Ear') || customText.includes('કાન')) {
+            suggestion = "1. Surolan Ear Drops - 3 drops twice daily\n2. Moxifloxacin Eye Drops - 2 drops 3 times";
+        } else if (symptom.includes('Lameness') || customText.includes('સાંધા')) {
+            suggestion = "1. Tab. Carodyl (Carprofen) - as per weight\n2. Glucosamine Joint Supplement Syrup - 10 ml daily";
+        } else {
+            suggestion = "1. Symptomatic Treatment & Supportive Care as examined.";
+        }
+        medBox.value = suggestion;
+    }
+
+    function submitCaseToDoctor(event) {
+        event.preventDefault();
+
+        const ownerName = document.getElementById('ownerName').value;
+        const ownerMobile = document.getElementById('ownerMobile').value;
+        const location = document.getElementById('location').value || 'N/A';
+        const petSpecies = document.getElementById('petSpecies').value;
+        const petWeight = document.getElementById('petWeight').value;
+        let diag = document.getElementById('primarySymptom').value;
+        let custom = document.getElementById('customSymptoms').value;
+        if(custom) diag += " (" + custom + ")";
+        
+        // Ensure doctor's current textarea input is captured as the final Rx
+        const rxContent = document.getElementById('doctorPrescription').value || "Symptomatic Treatment";
+
+        let caseData = { owner: ownerName, mobile: ownerMobile, location: location, pet: petSpecies, weight: petWeight, diagnosis: diag, rx: rxContent, date: today };
+
+        let pendingCases = JSON.parse(localStorage.getItem('drpet_pending')) || [];
+        let pIndex = pendingCases.findIndex(c => c.mobile === ownerMobile);
+        if(pIndex >= 0) { pendingCases[pIndex] = caseData; } else { pendingCases.push(caseData); }
+        localStorage.setItem('drpet_pending', JSON.stringify(pendingCases));
+
+        let historyCases = JSON.parse(localStorage.getItem('drpet_history')) || [];
+        let hIndex = historyCases.findIndex(c => c.mobile === ownerMobile && c.date === today);
+        if(hIndex >= 0) { historyCases[hIndex] = caseData; } else { historyCases.push(caseData); }
+        localStorage.setItem('drpet_history', JSON.stringify(historyCases));
+
+        if (isDoctorLoggedIn) {
+            document.getElementById('lblOwner').innerText = ownerName;
+            document.getElementById('lblMobile').innerText = ownerMobile;
+            document.getElementById('lblLocation').innerText = location;
+            document.getElementById('lblPet').innerText = petSpecies;
+            document.getElementById('lblWeight').innerText = petWeight;
+            document.getElementById('lblDiagnosis').innerText = diag;
+            document.getElementById('lblRxContent').innerText = rxContent;
+
+            renderCaseLists();
+            document.getElementById('finalPrescriptionBox').style.display = 'block';
+            document.getElementById('finalPrescriptionBox').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            let notifMsg = `*New Case / Payment Alert!*%0A`;
+            notifMsg += `*પેટ માલિક:* ${ownerName}%0A`;
+            notifMsg += `*મોબાઈલ:* ${ownerMobile}%0A`;
+            notifMsg += `*સ્થળ:* ${location}%0A`;
+            notifMsg += `*પ્રાણી:* ${petSpecies} (વજન: ${petWeight} kg)%0A`;
+            notifMsg += `*નિદાન:* ${diag}%0A`;
+            if(custom) notifMsg += `*ઓનરની નોંધ:* ${custom}%0A`;
+            notifMsg += `-----------------------------------%0A`;
+            notifMsg += `*(પેમેન્ટ સ્વીકારી એપમાં કેસ ઓપન કરો)*`;
+
+            window.open(`https://wa.me/919825088959?text=${notifMsg}`, '_blank');
+            alert("તમારો કેસ અને પેમેન્ટની માહિતી સફળતાપૂર્વક ડૉક્ટરને મોકલી દેવામાં આવી છે!");
+            document.getElementById('drpetForm').reset();
+        }
+    }
+
+    function renderCaseLists() {
+        if (!isDoctorLoggedIn) return;
+
+        let pending = JSON.parse(localStorage.getItem('drpet_pending')) || [];
+        let pContainer = document.getElementById('caseListContainer');
+        if(pending.length === 0) {
+            pContainer.innerHTML = '<li style="text-align: center; color: #666; font-size: 13px; padding: 10px;">હજુ કોઈ પેન્ડિંગ કેસ નથી...</li>';
+        } else {
+            let pHtml = '';
+            pending.forEach((c, index) => {
+                pHtml += `<li class="case-item" onclick="loadCase('pending', ${index})">
+                    <div style="display:flex; justify-content:space-between; width:100%;">
+                        <span>👤 <strong>${c.owner}</strong> (${c.pet}) - 📅 ${c.date}</span>
+                        <span style="font-size:12px; color:#555;">📞 ${c.mobile}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #444;">નિદાન: ${c.diagnosis}</div>
+                </li>`;
+            });
+            pContainer.innerHTML = pHtml;
+        }
+
+        let history = JSON.parse(localStorage.getItem('drpet_history')) || [];
+        let hContainer = document.getElementById('historyListContainer');
+        if(history.length === 0) {
+            hContainer.innerHTML = '<li style="text-align: center; color: #666; font-size: 13px; padding: 10px;">હજુ કોઈ હિસ્ટ્રી સેવ થયેલ નથી...</li>';
+        } else {
+            let hHtml = '';
+            history.forEach((c, index) => {
+                hHtml += `<li class="case-item" onclick="loadCase('history', ${index})">
+                    <div style="display:flex; justify-content:space-between; width:100%;">
+                        <span>👤 <strong>${c.owner}</strong> (${c.pet}) - 📅 ${c.date}</span>
+                        <span style="font-size:12px; color:#555;">📞 ${c.mobile}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #444;">નિદાન: ${c.diagnosis}</div>
+                </li>`;
+            });
+            hContainer.innerHTML = hHtml;
+        }
+    }
+
+    function loadCase(type, index) {
+        let storageKey = (type === 'pending') ? 'drpet_pending' : 'drpet_history';
+        let cases = JSON.parse(localStorage.getItem(storageKey)) || [];
+        let c = cases[index];
+        if(!c) return;
+
+        document.getElementById('ownerName').value = c.owner;
+        document.getElementById('ownerMobile').value = c.mobile;
+        document.getElementById('location').value = c.location;
+        document.getElementById('petSpecies').value = c.pet;
+        document.getElementById('petWeight').value = c.weight;
+        document.getElementById('doctorPrescription').value = c.rx;
+
+        document.getElementById('lblOwner').innerText = c.owner;
+        document.getElementById('lblMobile').innerText = c.mobile;
+        document.getElementById('lblLocation').innerText = c.location;
+        document.getElementById('lblPet').innerText = c.pet;
+        document.getElementById('lblWeight').innerText = c.weight;
+        document.getElementById('lblDiagnosis').innerText = c.diagnosis;
+        document.getElementById('lblRxContent').innerText = c.rx;
+
+        document.getElementById('finalPrescriptionBox').style.display = 'block';
+        document.getElementById('drpetForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function clearPendingCases() {
+        if(confirm("શું તમે પેન્ડિંગ કેસની યાદી ખાલી કરવા માંગો છો?")) {
+            localStorage.removeItem('drpet_pending');
+            renderCaseLists();
+        }
+    }
+
+    // Sends the exact final prescription currently visible in the preview box
+    function sendToWhatsApp() {
+        const owner = document.getElementById('lblOwner').innerText;
+        const mobile = document.getElementById('lblMobile').innerText;
+        const location = document.getElementById('lblLocation').innerText;
+        const pet = document.getElementById('lblPet').innerText;
+        const weight = document.getElementById('lblWeight').innerText;
+        const diag = document.getElementById('lblDiagnosis').innerText;
+        const rx = document.getElementById('lblRxContent').innerText; // Using the exact final preview Rx text
+
+        if(owner === "---") {
+            alert("પહેલા પ્રિસ્ક્રિપ્શન જનરેટ કરો!");
+            return;
+        }
+
+        let message = `*Dr Jayesh Gohil Vet Clinic Prescription*%0A`;
+        message += `-----------------------------------%0A`;
+        message += `*તારીખ:* ${today} | *Regd. No:* GVC-1186%0A`;
+        message += `*પેટ માલિક:* ${owner}%0A`;
+        message += `*મોબાઈલ:* ${mobile} | *સ્થળ:* ${location}%0A`;
+        message += `*પ્રાણી:* ${pet} (વજન: ${weight} kg)%0A`;
+        message += `*નિદાન (Diagnosis):* ${diag}%0A`;
+        message += `-----------------------------------%0A`;
+        message += `*Rx (દવાઓ અને ડોઝ):*%0A${encodeURIComponent(rx)}%0A`;
+        message += `-----------------------------------%0A`;
+        message += `*Dr. Jayesh Gohil*%0A`;
+        message += `*✓ Digitally Verified & Approved*%0A`;
+        message += `*(Telemedicine Rules Applied)*`;
+
+        const whatsappUrl = `https://wa.me/${mobile}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
+
+</body>
+</html>
